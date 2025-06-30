@@ -49,9 +49,9 @@ public class FestivoServicio implements IFestivoServicio {
             case 2: //Ley de "Puente festivo"
                 return siguienteLunes(LocalDate.of(año, festivo.getMes(), festivo.getDia()));
             case 3: //Basado en el domingo de Pascua
-                return calcularDomingoPascua(año).plusDays(7 + festivo.getDiaspascua());
+                return calcularDomingoPascua(año).plusDays(festivo.getDiaspascua());
             case 4: //Basado en el domingo de Pascua y Ley de "Puente festivo"
-                LocalDate temporal = calcularDomingoPascua(año).plusDays(7+ festivo.getDiaspascua());
+                LocalDate temporal = calcularDomingoPascua(año).plusDays(festivo.getDiaspascua());
                 return siguienteLunes(temporal);
             default:
                 return null;
@@ -70,7 +70,8 @@ public class FestivoServicio implements IFestivoServicio {
             mes = 4;
             dia -= 31;
         }
-        return LocalDate.of(año, mes, dia);
+        //Se le suman 7 dias al Domingo de Ramos para tener el Domingo de Pascua
+        return LocalDate.of(año, mes, dia + 7);
     }
 
     private LocalDate siguienteLunes(LocalDate fecha) {
